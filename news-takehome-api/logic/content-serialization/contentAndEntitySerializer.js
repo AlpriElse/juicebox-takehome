@@ -1,5 +1,4 @@
 function contentAndEntitySerializer(content, namedEntities) {
-  console.log(content, namedEntities);
   const result = [];
 
   const allEntities = [];
