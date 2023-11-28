@@ -34,7 +34,7 @@ POST /v1/news/content
 
 `/v1/news/content` powers the named entity analysis page. At a high-level this is what it does:
 
-- fetch the raw HTML of a News API page
+- fetch the raw HTML of a News API page (the content provided by News API is truncated)
 - use `cheerio` to grab the content within a `<article>` HTML tag (this is to reduce what we're sending over to an LLM)
 - we do an LLM call to extract the content out of the HTML
 - we do another LLM call to do named entity recognition against the content extracted from HTML
