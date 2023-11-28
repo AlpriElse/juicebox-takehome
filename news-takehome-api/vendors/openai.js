@@ -12,9 +12,9 @@ const MODELS = {
     name: "gpt-3.5-turbo",
     tokenLimit: 4096,
   },
-  GPT_4: {
-    name: "gpt-4-32k",
-    tokenLimit: 32768,
+  GPT_3_5_TURBO_16K: {
+    name: "gpt-3.5-turbo-16k",
+    tokenLimit: 16385,
   },
 };
 
@@ -33,16 +33,17 @@ function simpleCompletion(system = "", message = "") {
         },
       ],
     })
-    .then((res) => res.choices[0]);
+    .then((res) => res.choices[0]["message"]["content"]);
 }
 
-const TOKEN_COUNT_THRESHOLD_BUFFER = 1000;
+const TOKEN_COUNT_THRESHOLD_BUFFER = 2000;
+
 function contextSizeAwareCompletion(system = "", message = "") {
   const shouldUseLargerModel =
     estimateTokenCount(system + message) >
     MODELS.DEFAULT_MODEL.tokenLimit - TOKEN_COUNT_THRESHOLD_BUFFER;
   const model = shouldUseLargerModel
-    ? MODELS.GPT_4.name
+    ? MODELS.GPT_3_5_TURBO_16K.name
     : MODELS.DEFAULT_MODEL.name;
 
   return openai.chat.completions
@@ -59,7 +60,7 @@ function contextSizeAwareCompletion(system = "", message = "") {
         },
       ],
     })
-    .then((res) => res.choices[0]);
+    .then((res) => res.choices[0]["message"]["content"]);
 }
 
 module.exports = {

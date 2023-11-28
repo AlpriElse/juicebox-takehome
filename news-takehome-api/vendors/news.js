@@ -11,7 +11,6 @@ const newsApiClient = axios.create({
 });
 
 function fetchTopHeadlines(country = "us") {
-  console.log("hi");
   return newsApiClient
     .get("/top-headlines", {
       params: {
