@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { getTest } from "./api/test";
+import React from "react";
+import Home from "./pages/Home";
 
-import "./App.css";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
+//  TODO setup page routing
 function App() {
-  const [text, setText] = useState(null);
-  useEffect(() => {
-    getTest().then((res) => {
-      setText(res.payload.text);
-    });
-  }, []);
-  return (
-    <div className="App">
-      <h1>{text === null ? "Loading..." : text}</h1>
-    </div>
-  );
+  return <Home />;
 }
 
 export default App;
