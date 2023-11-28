@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 
 const { StandardResponse } = require("./models/http");
+const newsRouter = require("./routes/newsRouter");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -10,6 +11,8 @@ app.get("/healthcheck", (req, res) => {
   const response = new StandardResponse(200, true);
   response.send(res);
 });
+
+app.use("/news", newsRouter);
 
 app.get("/test", (req, res) => {
   const response = new StandardResponse(200, true, { text: "some text" });
