@@ -7,21 +7,32 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+const RESPONSE_FORMAT = {
+  JSON: "json_object",
+  TEXT: "text",
+};
+
 const MODELS = {
   DEFAULT_MODEL: {
     name: "gpt-3.5-turbo",
     tokenLimit: 4096,
   },
   GPT_3_5_TURBO_16K: {
-    name: "gpt-3.5-turbo-16k",
+    name: "gpt-3.5-turbo-1106",
     tokenLimit: 16385,
   },
 };
 
-function simpleCompletion(system = "", message = "") {
+function simpleCompletion(
+  system = "",
+  message = "",
+  model = MODELS.DEFAULT_MODEL,
+  responseFormat = RESPONSE_FORMAT.TEXT
+) {
   return openai.chat.completions
     .create({
-      model: MODELS.name,
+      model: model.name,
+      response_format: { type: responseFormat },
       messages: [
         {
           role: "system",
@@ -38,7 +49,11 @@ function simpleCompletion(system = "", message = "") {
 
 const TOKEN_COUNT_THRESHOLD_BUFFER = 2000;
 
-function contextSizeAwareCompletion(system = "", message = "") {
+function contextSizeAwareCompletion(
+  system = "",
+  message = "",
+  responseFormat = "text"
+) {
   const shouldUseLargerModel =
     estimateTokenCount(system + message) >
     MODELS.DEFAULT_MODEL.tokenLimit - TOKEN_COUNT_THRESHOLD_BUFFER;
@@ -49,6 +64,7 @@ function contextSizeAwareCompletion(system = "", message = "") {
   return openai.chat.completions
     .create({
       model,
+      response_format: { type: responseFormat },
       messages: [
         {
           role: "system",
@@ -64,6 +80,8 @@ function contextSizeAwareCompletion(system = "", message = "") {
 }
 
 module.exports = {
+  RESPONSE_FORMAT,
+  MODELS,
   simpleCompletion,
   contextSizeAwareCompletion,
 };

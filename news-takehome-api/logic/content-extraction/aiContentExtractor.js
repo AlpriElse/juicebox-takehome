@@ -1,4 +1,4 @@
-const { contextSizeAwareCompletion } = require("../vendors/openai");
+const { contextSizeAwareCompletion } = require("../../vendors/openai");
 
 const SYSTEM_PROMT = `
 You will be given HTML from a news article. Your task is to remove the article content from the HTML.
